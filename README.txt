@@ -1,0 +1,3 @@
+Este trabalho não me correu muito bem até porque não corre de todo...
+Ao desenvolver o trabalho, mais ou menos a meio comecei a ficar bastante confuso quanto ao que devia fazer para obter resultados e acabei por me perder em vários exemplos e quando me apercebi já não tinha tempo para apresentar uma coisa decente.
+No fim acho que acabei por implementar os componentes todos, mas obviamente não ficaram bem "encaixados" e por isso não consegui chegar a uma aplicação funcional.
