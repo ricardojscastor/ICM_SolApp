@@ -1,11 +1,10 @@
 package com.example.ricardocastor.solapp;
 
-import android.support.annotation.Nullable;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.concurrent.TimeUnit;
 
 public class IPMAJsonParser {
 
@@ -23,35 +22,31 @@ public class IPMAJsonParser {
 
         Weather[] weatherEntries = new Weather[jsonWeatherArray.length()];
 
-        long normalizedUtcStartDay = System.currentTimeMillis();
+        int id = forecastJson.getInt(IPMA_LID);
 
         for (int i = 0; i < jsonWeatherArray.length(); i++) {
             JSONObject dayForecast = jsonWeatherArray.getJSONObject(i);
-            long dateTimeMillis = normalizedUtcStartDay + TimeUnit.DAYS.toMillis(1) * i;//SunshineDateUtils.DAY_IN_MILLIS * i;
-            Weather weather = fromJson(dayForecast, dateTimeMillis);
+            Weather weather = fromJson(dayForecast, id);
             weatherEntries[i] = weather;
         }
         return weatherEntries;
     }
 
-    private static Weather fromJson(final JSONObject dayForecast, long dateTimeMillis) throws JSONException {
+    private static Weather fromJson(final JSONObject dayForecast, int id) throws JSONException {
 
         String max = dayForecast.getString(IPMA_TMAX);
         String min = dayForecast.getString(IPMA_TMIN);
         String prec = dayForecast.getString(IPMA_PREC);
         String windDirection = dayForecast.getString(IPMA_WNDDIR);
         String dat = dayForecast.getString(IPMA_DATE);
-        String udate = dayForecast.getString(IPMA_UDATE);
-        int id = dayForecast.getInt(IPMA_LID);
+        //String udate = dayForecast.getString(IPMA_UDATE);
 
-        return new Weather(id, max, min, windDirection, prec, dat, udate);
+        return new Weather(id, max, min, windDirection, prec, dat);
     }
 
-    @Nullable
-    WeatherResponse parse(final String forecastJsonStr) throws JSONException {
+    public static Weather[] parse(final String forecastJsonStr) throws JSONException {
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
-        Weather[] weatherForecast = fromJson(forecastJson);
-        return new WeatherResponse(weatherForecast);
+        return fromJson(forecastJson);
     }
 
 }

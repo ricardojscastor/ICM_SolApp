@@ -11,16 +11,14 @@ import android.support.annotation.VisibleForTesting;
 @TypeConverters(DateConverter.class)
 public abstract class WeatherRoomDatabase extends RoomDatabase {
 
-    private static WeatherRoomDatabase instance;
+    private static volatile WeatherRoomDatabase INSTANCE;
 
     @VisibleForTesting
     public static final String DATABASE_NAME = "basic-sample-db";
 
     public abstract WeatherDao weatherDao();
 
-    private static volatile WeatherRoomDatabase INSTANCE;
-
-    static WeatherRoomDatabase getDatabase(final Context context){
+    public static WeatherRoomDatabase getDatabase(final Context context){
         if (INSTANCE == null) {
             synchronized (WeatherRoomDatabase.class) {
                 if (INSTANCE == null){

@@ -10,11 +10,20 @@ public class WeatherViewModel extends AndroidViewModel {
 
     private WeatherRepository weatherRepository;
 
-    private LiveData<List<Weather>> weather;
+    private LiveData<Weather> weather;
 
     public WeatherViewModel (Application application){
         super(application);
-
+        this.weatherRepository = new WeatherRepository(application);
     }
+
+    public void init(int globalIdLocal, String date) {
+        weather = weatherRepository.getWeatherByLocalDate(globalIdLocal, date);
+    }
+
+    public LiveData<Weather> getWeather() {
+        return this.weather;
+    }
+
 
 }
